@@ -1,0 +1,47 @@
+# Reference: https://build-cpp.github.io/cmkr/cmake-toml
+[project]
+name = "vectorv2"
+
+[vcpkg]
+version = "2023.08.09"
+packages = ["glfw3", "glew"]
+
+[find-package]
+glfw3 = {}
+GLEW = {}
+
+[target.imgui]
+type="static"
+sources = [
+    "include/imgui/*.cpp",
+    "include/imgui/*.h",
+    "include/imgui/backends/imgui_impl_glfw.cpp",
+    "include/imgui/backends/imgui_impl_glfw.h",
+    "include/imgui/backends/imgui_impl_opengl3.cpp",
+    "include/imgui/backends/imgui_impl_opengl3.h",
+]
+include-directories = ["include/imgui"]
+link-libraries = ["glfw", "GLEW::GLEW"]
+compile-features = ["cxx_std_11"]
+
+[target.imgui-knobs]
+type="static"
+sources = [
+    "include/knobs/*.h",
+    "include/knobs/*.cpp",
+]
+include-directories = ["include/knobs"]
+compile-features = ["cxx_std_11"]
+
+[target.vectorv2]
+type = "executable"
+sources = ["src/main.cpp"]
+link-libraries = ["imgui","imgui-knobs"]
+
+# TODO: define a target for each of your executables/libraries like this:
+#[target.myexecutable]
+#type = "executable" # static, shared
+#sources = ["src/vectorv2/*.cpp", "include/vectorv2/*.hpp"]
+#include-directories = ["include"]
+#compile-features = ["cxx_std_11"]
+#link-libraries = ["target-or-library"]
